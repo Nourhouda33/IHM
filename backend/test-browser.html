@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test API Hkeya</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0a1022 0%, #1e3268 100%);
+      color: #fff;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #F5C842;
+      text-shadow: 0 0 20px rgba(245, 200, 66, 0.5);
+    }
+    .section {
+      background: rgba(15, 24, 48, 0.8);
+      border: 1px solid rgba(79, 142, 247, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+    h2 {
+      color: #4F8EF7;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+    button {
+      background: linear-gradient(135deg, #4F8EF7, #2a4fa8);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 12px rgba(79, 142, 247, 0.3);
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(79, 142, 247, 0.5);
+    }
+    button.success {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+    button.danger {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+    pre {
+      background: #060b18;
+      border: 1px solid rgba(79, 142, 247, 0.2);
+      border-radius: 8px;
+      padding: 15px;
+      overflow-x: auto;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #93bffb;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .token-display {
+      background: #1e3268;
+      padding: 10px;
+      border-radius: 6px;
+      margin: 10px 0;
+      word-break: break-all;
+      font-size: 11px;
+      color: #F5C842;
+    }
+    .status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+    .status.success { background: #10b981; color: #fff; }
+    .status.error { background: #ef4444; color: #fff; }
+    .status.pending { background: #f59e0b; color: #fff; }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      background: rgba(6, 11, 24, 0.8);
+      border: 1px solid rgba(79, 142, 247, 0.3);
+      border-radius: 6px;
+      color: #fff;
+      font-family: inherit;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      color: #93bffb;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Test API Hkeya Backend</h1>
+
+    <!-- Section 1: Health Check -->
+    <div class="section">
+      <h2>1️⃣ Health Check</h2>
+      <button onclick="testHealth()">Test /api/health</button>
+      <pre id="health-result">Cliquez sur le bouton pour tester...</pre>
+    </div>
+
+    <!-- Section 2: Login -->
+    <div class="section">
+      <h2>2️⃣ Authentification</h2>
+      <label>Email:</label>
+      <input type="email" id="login-email" value="admin@hkeya.tn">
+      <label>Mot de passe:</label>
+      <input type="password" id="login-password" value="password123">
+      <button onclick="testLogin()">Login</button>
+      <button onclick="testMe()" class="success">Get Profile (/me)</button>
+      <div id="token-display" class="token-display" style="display:none;">
+        <strong>Token JWT:</strong> <span id="token-value"></span>
+      </div>
+      <pre id="login-result">Connectez-vous pour obtenir un token...</pre>
+    </div>
+
+    <!-- Section 3: Topics -->
+    <div class="section">
+      <h2>3️⃣ Topics</h2>
+      <button onclick="getTopics()">GET /api/topics</button>
+      <pre id="topics-result">Cliquez pour récupérer les topics...</pre>
+    </div>
+
+    <!-- Section 4: Posts -->
+    <div class="section">
+      <h2>4️⃣ Posts</h2>
+      <button onclick="getPosts()">GET /api/posts</button>
+      <button onclick="showCreatePost()" class="success">Créer un Post</button>
+      <div id="create-post-form" style="display:none; margin-top:15px;">
+        <label>Topic ID (1=Études, 2=Tech, 3=Santé, 4=Loi):</label>
+        <input type="number" id="post-topic" value="1">
+        <label>Texte:</label>
+        <textarea id="post-text" rows="3" placeholder="Votre message..."></textarea>
+        <button onclick="createPost()" class="success">Envoyer</button>
+      </div>
+      <pre id="posts-result">Cliquez pour récupérer les posts...</pre>
+    </div>
+
+    <!-- Section 5: Interactions -->
+    <div class="section">
+      <h2>5️⃣ Interactions</h2>
+      <label>Post ID:</label>
+      <input type="number" id="interaction-post-id" value="1">
+      <button onclick="addLike()">👍 Like</button>
+      <button onclick="addDislike()">👎 Dislike</button>
+      <button onclick="showAddComment()" class="success">💬 Commentaire</button>
+      <div id="comment-form" style="display:none; margin-top:15px;">
+        <label>Commentaire:</label>
+        <textarea id="comment-text" rows="2" placeholder="Votre commentaire..."></textarea>
+        <button onclick="addComment()" class="success">Envoyer</button>
+      </div>
+      <pre id="interactions-result">Ajoutez une interaction...</pre>
+    </div>
+
+    <!-- Section 6: Admin -->
+    <div class="section">
+      <h2>6️⃣ Administration (Admin uniquement)</h2>
+      <button onclick="getUsers()" class="danger">GET /api/admin/users</button>
+      <pre id="admin-result">Nécessite un token ADMIN...</pre>
+    </div>
+  </div>
+
+  <script>
+    let token = null;
+
+    // Health Check
+    async function testHealth() {
+      try {
+        const res = await fetch('http://localhost:4000/api/health');
+        const data = await res.json();
+        document.getElementById('health-result').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById('health-result').textContent = 'Erreur: ' + err.message;
+      }
+    }
+
+    // Login
+    async function testLogin() {
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      
+      try {
+        const res = await fetch('http://localhost:4000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, motDePasse: password })
+        });
+        const data = await res.json();
+        
+        if (data.ok && data.token) {
+          token = data.token;
+          document.getElementById('token-display').style.display = 'block';
+          document.getElementById('token-value').textContent = token.substring(0, 50) + '...';
+        }
+        
+        document.getElementById('login-result').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById('login-result').textContent = 'Erreur: ' + err.message;
+      }
+    }
+
+    // Get Profile
+    async function testMe() {
+      if (!token) {
+        alert('Connectez-vous d\'abord !');
+        return;
+      }
+      
+      try {
+        const res = await fetch('http://localhost:4000/api/auth/me', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        document.getElementById('login-result').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById('login-result').textContent = 'Erreur: ' + err.message;
+      }
+    }
+
+    // Get Topics
+    async function getTopics() {
+      if (!token) {
+        alert('Connectez-vous d\'abord !');
+        return;
+      }
+      
+      try {
+        const res = await fetch('http://localhost:4000/api/topics', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        document.getElementById('topics-result').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById('topics-result').textContent = 'Erreur: ' + err.message;
+      }
+    }
+
+    // Get Posts
+    async function getPosts() {
+      if (!token) {
+        alert('Connectez-vous d\'abord !');
+        return;
+      }
+      
+      try {
+        const res = await fetch('http://localhost:4000/api/posts', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        document.getElementById('posts-result').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById('posts-result').textContent = 'Erreur: ' + err.message;
+      }
+    }
+
+    // Show Create Post Form
+    function showCreatePost() {
+      const form = document.getElementById('create-post-form');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Create Post
+    async function createPost() {
+      if (!token) {
+        alert('Connectez-vous d\'abord !');
+        return;
+      }
+      
+      const topic_id = document.getElementById('post-topic').value;
+      const texte = document.getElementById('post-text').value;
+      
+      if (!texte.trim()) {
+        alert('Le texte est requis !');
+        return;
+      }
+      
+      try {
+        const res = await fetch('http://localhost:4000/api/posts', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ topic_id: parseInt(topic_id), texte })
+        });
+        const data = await res.json();
+        document.getElementById('posts-result').textContent = JSON.stringify(data, null, 2);
+        
+        if (data.ok) {
+          document.getElementById('post-text').value = '';
+          alert('Post créé ! (en attente de validation)');
+        }
+      } catch (err) {
+        document.getElementById('posts-result').textContent = 'Erreur: ' + err.message;
+      }
+    }
+
+    // Add Like
+    async function addLike() {
+      await addInteraction('LIKE');
+    }
+
+    // Add Dislike
+    async function addDislike() {
+      await addInteraction('DISLIKE');
+    }
+
+    // Show Comment Form
+    function showAddComment() {
+      const form = document.getElementById('comment-form');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Add Comment
+    async function addComment() {
+      const contenu = document.getElementById('comment-text').value;
+      if (!contenu.trim()) {
+        alert('Le commentaire est requis !');
+        return;
+      }
+      await addInteraction('COMMENTAIRE', contenu);
+      document.getElementById('comment-text').value = '';
+    }
+
+    // Add Interaction
+    async function addInteraction(type, contenu = null) {
+      if (!token) {
+        alert('Connectez-vous d\'abord !');
+        return;
+      }
+      
+      const post_id = document.getElementById('interaction-post-id').value;
+      
+      try {
+        const body = { post_id: parseInt(post_id), type };
+        if (contenu) body.contenu = contenu;
+        
+        const res = await fetch('http://localhost:4000/api/interactions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        document.getElementById('interactions-result').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById('interactions-result').textContent = 'Erreur: ' + err.message;
+      }
+    }
+
+    // Get Users (Admin)
+    async function getUsers() {
+      if (!token) {
+        alert('Connectez-vous d\'abord !');
+        return;
+      }
+      
+      try {
+        const res = await fetch('http://localhost:4000/api/admin/users', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        document.getElementById('admin-result').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById('admin-result').textContent = 'Erreur: ' + err.message;
+      }
+    }
+  </script>
+</body>
+</html>

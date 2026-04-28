@@ -1,0 +1,306 @@
+{
+  "info": {
+    "name": "Hkeya API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base", "value": "http://localhost:4000/api" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "url": "{{base}}/auth/register",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Ben Ali\",\n  \"prenom\": \"Sarra\",\n  \"email\": \"sarra@hkeya.tn\",\n  \"pseudo\": \"SarraB\",\n  \"motDePasse\": \"secret123\",\n  \"telephone\": \"+21620000000\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "{{base}}/auth/login",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"sarra@hkeya.tn\",\n  \"motDePasse\": \"secret123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "url": "{{base}}/auth/me",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Topics",
+      "item": [
+        {
+          "name": "Get All Topics",
+          "request": {
+            "method": "GET",
+            "url": "{{base}}/topics",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        },
+        {
+          "name": "Create Topic (ADMIN)",
+          "request": {
+            "method": "POST",
+            "url": "{{base}}/topics",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Études\",\n  \"description\": \"Discussions sur les études et l'université\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Topic (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "url": "{{base}}/topics/1",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Études & Formation\",\n  \"description\": \"Mise à jour\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Topic (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base}}/topics/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "Get All Posts",
+          "request": {
+            "method": "GET",
+            "url": "{{base}}/posts",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        },
+        {
+          "name": "Create Post",
+          "request": {
+            "method": "POST",
+            "url": "{{base}}/posts",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"topic_id\": 1,\n  \"texte\": \"يخي فما شركة تقبل stagiaire مغير اكتاف ؟\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Post",
+          "request": {
+            "method": "PUT",
+            "url": "{{base}}/posts/1",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"texte\": \"Texte modifié\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Post",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base}}/posts/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        },
+        {
+          "name": "Valider Post (MODERATEUR/ADMIN)",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base}}/posts/1/valider",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Interactions",
+      "item": [
+        {
+          "name": "Like",
+          "request": {
+            "method": "POST",
+            "url": "{{base}}/interactions",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"post_id\": 1,\n  \"type\": \"LIKE\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Dislike",
+          "request": {
+            "method": "POST",
+            "url": "{{base}}/interactions",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"post_id\": 1,\n  \"type\": \"DISLIKE\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Commentaire",
+          "request": {
+            "method": "POST",
+            "url": "{{base}}/interactions",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"post_id\": 1,\n  \"type\": \"COMMENTAIRE\",\n  \"contenu\": \"Très bon post !\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Signalement",
+          "request": {
+            "method": "POST",
+            "url": "{{base}}/interactions",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"post_id\": 1,\n  \"type\": \"SIGNALEMENT\",\n  \"raison\": \"Contenu inapproprié\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Interaction",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base}}/interactions/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        },
+        {
+          "name": "Get Signalements (MODO/ADMIN)",
+          "request": {
+            "method": "GET",
+            "url": "{{base}}/interactions/signalements",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "url": "{{base}}/admin/users",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        },
+        {
+          "name": "Set Role",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base}}/admin/users/1/role",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"MODERATEUR\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base}}/admin/users/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        },
+        {
+          "name": "Modérer Post (supprimer post seul)",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base}}/admin/posts/1/moderer",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deleteAuthor\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Modérer Post + Supprimer Auteur",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base}}/admin/posts/1/moderer",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deleteAuthor\": true\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
