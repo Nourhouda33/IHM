@@ -19,14 +19,14 @@ const login = async (req, res, next) => {
 };
 
 const me = (req, res) => {
-  const user = req.user.toJSON ? req.user.toJSON() : req.user;
+  const user = req.user.toJSON ? req.user.toJSON() : { ...req.user };
   delete user.motDePasse;
   res.json({
     ok: true,
     user: {
       ...user,
       username: user.pseudo,
-      fullName: `${user.prenom} ${user.nom}`,
+      fullName: `${user.prenom || ''} ${user.nom || ''}`.trim(),
       firstName: user.prenom,
       lastName: user.nom,
       phone: user.telephone,
@@ -35,4 +35,22 @@ const me = (req, res) => {
   });
 };
 
-module.exports = { register, login, me };
+const updateProfile = async (req, res, next) => {
+  try {
+    const user = await authService.updateProfile(req.user.id, req.body);
+    res.json({ ok: true, user });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const changePassword = async (req, res, next) => {
+  try {
+    await authService.changePassword(req.user.id, req.body);
+    res.json({ ok: true, message: 'Mot de passe changé avec succès' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { register, login, me, updateProfile, changePassword };

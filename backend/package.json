@@ -8,6 +8,7 @@
     "dev": "nodemon server.js",
     "db:sync": "node scripts/syncDb.js",
     "db:reset": "node scripts/resetDb.js",
+    "db:migrate": "node scripts/addSuspenduField.js",
     "seed": "node scripts/seed.js",
     "test:notifications": "node scripts/testNotifications.js",
     "analyze": "node scripts/analyzeCode.js"

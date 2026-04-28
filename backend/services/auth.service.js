@@ -81,8 +81,34 @@ const login = async ({ email, identifier, motDePasse, password }) => {
   const valid = await bcrypt.compare(passwordToUse, user.motDePasse);
   if (!valid) throw { status: 401, message: 'Email ou mot de passe incorrect' };
 
+  if (user.suspendu) throw { status: 403, message: 'Votre compte a été suspendu suite à un signalement. Contactez l\'administration.' };
+
   const token = generateToken(user);
   return { token, user: formatUser(user) };
 };
 
-module.exports = { register, login };
+const updateProfile = async (userId, { prenom, nom, pseudo }) => {
+  const user = await User.findByPk(userId);
+  if (!user) throw { status: 404, message: 'Utilisateur introuvable' };
+
+  if (pseudo && pseudo !== user.pseudo) {
+    const existing = await User.findOne({ where: { pseudo } });
+    if (existing) throw { status: 409, message: 'Ce pseudonyme est déjà utilisé' };
+  }
+
+  await user.update({ prenom, nom, pseudo });
+  return formatUser(user);
+};
+
+const changePassword = async (userId, { oldPassword, newPassword }) => {
+  const user = await User.findByPk(userId);
+  if (!user) throw { status: 404, message: 'Utilisateur introuvable' };
+
+  const isValid = await bcrypt.compare(oldPassword, user.motDePasse);
+  if (!isValid) throw { status: 401, message: 'Mot de passe actuel incorrect' };
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  await user.update({ motDePasse: hashedPassword });
+};
+
+module.exports = { register, login, updateProfile, changePassword };

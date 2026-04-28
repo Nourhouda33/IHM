@@ -1,12 +1,20 @@
 const { Post, User, Topic, Interaction } = require('../models');
 const notificationService = require('./notification.service');
 
-const getAllPosts = async () => {
+const { Op } = require('sequelize');
+
+const getAllPosts = async ({ topicName } = {}) => {
+  // Build topic filter if provided
+  let topicWhere = {};
+  if (topicName) {
+    topicWhere = { nom: topicName };
+  }
+
   const posts = await Post.findAll({
     where: { statut: true },
     include: [
       { model: User, as: 'auteur', attributes: ['id', 'pseudo', 'avatar', 'role'] },
-      { model: Topic, as: 'topic', attributes: ['id', 'nom'] },
+      { model: Topic, as: 'topic', attributes: ['id', 'nom'], where: topicName ? topicWhere : undefined, required: !!topicName },
       { model: Interaction, as: 'Interactions', attributes: ['id', 'type'] },
     ],
     order: [['created_at', 'DESC']],
@@ -150,12 +158,23 @@ const getMyPosts = async (userId) => {
     where: { user_id: userId },
     include: [
       { model: Topic, as: 'topic', attributes: ['id', 'nom'] },
+      { model: Interaction, as: 'Interactions', attributes: ['id', 'type'] },
     ],
     order: [['created_at', 'DESC']],
   });
   return posts.map(p => {
     const j = p.toJSON();
-    return { ...j, content: j.texte || '', topic: j.topic?.nom || '', createdAt: j.created_at };
+    const interactions = j.Interactions || [];
+    return {
+      ...j,
+      content: j.texte || '',
+      topic: j.topic?.nom || '',
+      createdAt: j.created_at,
+      likesCount: interactions.filter(i => i.type === 'LIKE').length,
+      dislikesCount: interactions.filter(i => i.type === 'DISLIKE').length,
+      commentsCount: interactions.filter(i => i.type === 'COMMENTAIRE').length,
+      Interactions: undefined,
+    };
   });
 };
 

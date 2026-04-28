@@ -38,4 +38,29 @@ router.post(
 // GET /api/auth/me
 router.get('/me', authenticate, ctrl.me);
 
+// PATCH /api/auth/profile
+router.patch(
+  '/profile',
+  authenticate,
+  [
+    body('prenom').optional().notEmpty(),
+    body('nom').optional().notEmpty(),
+    body('pseudo').optional().notEmpty(),
+  ],
+  validate,
+  ctrl.updateProfile
+);
+
+// PATCH /api/auth/change-password
+router.patch(
+  '/change-password',
+  authenticate,
+  [
+    body('oldPassword').notEmpty().withMessage('Mot de passe actuel requis'),
+    body('newPassword').isLength({ min: 8 }).withMessage('Le nouveau mot de passe doit contenir au moins 8 caractères'),
+  ],
+  validate,
+  ctrl.changePassword
+);
+
 module.exports = router;

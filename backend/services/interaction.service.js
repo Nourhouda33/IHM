@@ -1,4 +1,4 @@
-const { Interaction, Post, User } = require('../models');
+const { Interaction, Post, User, Topic } = require('../models');
 const notificationService = require('./notification.service');
 
 const addInteraction = async ({ user_id, post_id, type, contenu, raison }) => {
@@ -88,4 +88,83 @@ const getComments = async (postId) => {
   });
 };
 
-module.exports = { addInteraction, deleteInteraction, getSignalements, getComments };
+const getLikedPosts = async (userId) => {
+  const likes = await Interaction.findAll({
+    where: { user_id: userId, type: 'LIKE' },
+    include: [
+      {
+        model: Post,
+        as: 'post',
+        where: { statut: true },
+        include: [
+          { model: User, as: 'auteur', attributes: ['id', 'pseudo', 'avatar'] },
+          { model: Topic, as: 'topic', attributes: ['id', 'nom'] },
+        ],
+      },
+    ],
+    order: [['created_at', 'DESC']],
+  });
+
+  return likes
+    .filter(l => l.post)
+    .map(l => {
+      const p = l.post.toJSON();
+      return {
+        ...p,
+        author: p.auteur?.pseudo || 'Anonyme',
+        authorAvatar: (p.auteur?.pseudo || 'A').charAt(0).toUpperCase(),
+        content: p.texte || '',
+        topic: p.topic?.nom || '',
+        createdAt: p.created_at,
+      };
+    });
+};
+
+const ignorerSignalement = async (signalementId) => {
+  const sig = await Interaction.findByPk(signalementId);
+  if (!sig || sig.type !== 'SIGNALEMENT') throw { status: 404, message: 'Signalement introuvable' };
+  await sig.destroy();
+};
+
+const supprimerPostSignale = async (signalementId, moderatorId) => {
+  const sig = await Interaction.findByPk(signalementId, { include: [{ model: Post, as: 'post' }] });
+  if (!sig || sig.type !== 'SIGNALEMENT') throw { status: 404, message: 'Signalement introuvable' };
+  const post = await Post.findByPk(sig.post_id);
+  if (!post) throw { status: 404, message: 'Post introuvable' };
+
+  // Notifier l'auteur
+  await notificationService.createNotification({
+    user_id: post.user_id,
+    from_user_id: moderatorId,
+    post_id: null,
+    type: 'POST_REJETE',
+    message: 'Votre publication a été supprimée suite à un signalement.',
+  });
+
+  // Supprimer tous les signalements liés à ce post
+  await Interaction.destroy({ where: { post_id: sig.post_id, type: 'SIGNALEMENT' } });
+  await post.destroy();
+};
+
+const suspendreUser = async (signalementId, moderatorId) => {
+  const sig = await Interaction.findByPk(signalementId);
+  if (!sig || sig.type !== 'SIGNALEMENT') throw { status: 404, message: 'Signalement introuvable' };
+  const post = await Post.findByPk(sig.post_id);
+  if (!post) throw { status: 404, message: 'Post introuvable' };
+
+  const user = await User.findByPk(post.user_id);
+  if (!user) throw { status: 404, message: 'Utilisateur introuvable' };
+  if (user.role === 'ADMIN') throw { status: 403, message: 'Impossible de suspendre un administrateur' };
+
+  // Suspendre l'utilisateur
+  await user.update({ suspendu: true });
+
+  // Supprimer tous les signalements liés à ce post
+  await Interaction.destroy({ where: { post_id: sig.post_id, type: 'SIGNALEMENT' } });
+  // Supprimer le post
+  await post.destroy();
+
+  return { pseudo: user.pseudo };
+};
+
+module.exports = { addInteraction, deleteInteraction, getSignalements, getComments, getLikedPosts, ignorerSignalement, supprimerPostSignale, suspendreUser };

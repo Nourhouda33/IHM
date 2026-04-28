@@ -48,6 +48,10 @@ const User = sequelize.define(
       type: DataTypes.ENUM('CLIENT', 'MODERATEUR', 'ADMIN'),
       defaultValue: 'CLIENT',
     },
+    suspendu: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     tableName: 'users',
