@@ -1362,7 +1362,11 @@ function logout(showToast=true){
 
 function go(p){
   const publicPages=['connexion','inscription'];
-  if(!isAuthenticated && !publicPages.includes(p))p='connexion';
+  if(!isAuthenticated && !publicPages.includes(p)){
+    // Pas authentifié → retour landing
+    window.location.replace('/');
+    return;
+  }
   if(isAuthenticated && publicPages.includes(p))p='accueil';
   closeProfileMenu();
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));
@@ -3190,18 +3194,30 @@ document.addEventListener('click',function(){
 
 function initApp(){
   seedDefaultUsers();
-  const sessionUser=getSessionUser();
-  if(sessionUser){
-    currentUser=sessionUser;
+
+  // Si pas de token API → retour à la landing page
+  const apiToken = localStorage.getItem('whisper_api_token_v1');
+  if (!apiToken) {
+    window.location.replace('/');
+    return;
+  }
+
+  const sessionUser = getSessionUser();
+  const apiUser = JSON.parse(localStorage.getItem('whisper_user_v1') || 'null');
+  const user = apiUser || sessionUser;
+
+  if(user){
+    currentUser = user;
     setAuthUI(true);
-    applyUserUI(sessionUser);
-    const hasSeenIntro=localStorage.getItem('whisper_intro_seen')==='1';
-    go(hasSeenIntro?'accueil':'intro');
-    // Charger les topics depuis la DB dans la sidebar
+    applyUserUI(user);
+    const hasSeenIntro = localStorage.getItem('whisper_intro_seen') === '1';
+    go(hasSeenIntro ? 'accueil' : 'accueil');
     loadSidebarTopics();
-  }else{
-    setAuthUI(false);
-    go('connexion');
+  } else {
+    // Token présent mais pas de user → retour landing
+    localStorage.removeItem('whisper_api_token_v1');
+    window.location.replace('/');
+    return;
   }
   clearHomeTopicFilter();
 }
