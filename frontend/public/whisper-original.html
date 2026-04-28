@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Whisper — Forum Anonyme</title>
+<title>Hkeya — Forum Anonyme</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -35,8 +35,8 @@ html,body{height:100%;font-family:var(--font);font-size:16px;background:var(--bg
 /* TOPBAR */
 .topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar);background:var(--topbar-bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;z-index:300;gap:12px}
 .topbar-logo{display:flex;align-items:center;gap:8px;flex-shrink:0;min-width:0}
-.logo-mark{width:36px;height:36px;flex-shrink:0;object-fit:cover;object-position:center;display:block;border-radius:6px}
-.logo-name{font-size:17px;font-weight:700;letter-spacing:-.5px;color:var(--t1);white-space:nowrap}
+.logo-mark{width:42px;height:42px;flex-shrink:0;object-fit:cover;object-position:center;display:block;border-radius:8px}
+.logo-name{font-size:20px;font-weight:800;letter-spacing:-.5px;color:var(--t1);white-space:nowrap}
 .topbar-center{flex:1;display:flex;justify-content:center;min-width:0}
 .topbar-search-wrap{position:relative;width:100%;max-width:360px}
 .topbar-search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--t3);width:13px;height:13px;pointer-events:none}
@@ -51,10 +51,48 @@ html,body{height:100%;font-family:var(--font);font-size:16px;background:var(--bg
 .notif-dot{position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--err);border:2px solid var(--topbar-bg)}
 .av-sm{width:30px;height:30px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;flex-shrink:0;border:2px solid var(--accent-border);overflow:hidden}
 .av-sm img{width:100%;height:100%;object-fit:cover}
-.profile-menu{position:absolute;right:0;top:40px;min-width:150px;background:var(--bg-surface);border:1px solid var(--border2);border-radius:10px;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,0.16);display:none;z-index:350}
+.profile-menu{
+  position:absolute;right:0;top:42px;
+  min-width:170px;
+  background:var(--bg-surface);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:7px;
+  box-shadow:0 10px 32px rgba(0,0,0,0.13);
+  display:none;
+  z-index:350;
+}
+.profile-menu::before{
+  content:'';
+  position:absolute;
+  top:-6px;right:12px;
+  width:11px;height:11px;
+  background:var(--bg-surface);
+  border-left:1px solid var(--border);
+  border-top:1px solid var(--border);
+  transform:rotate(45deg);
+  border-radius:2px 0 0 0;
+}
 .profile-menu.open{display:block}
-.profile-menu button{width:100%;text-align:left;padding:8px 10px;border:none;background:transparent;border-radius:8px;font-family:var(--font);font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s}
-.profile-menu button:hover{background:var(--bg-hover);color:var(--t1)}
+.profile-menu button{
+  width:100%;text-align:left;
+  padding:8px 11px;
+  border:none;
+  border-radius:8px;
+  font-family:var(--font);
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .15s;
+  display:flex;align-items:center;gap:9px;
+  margin-bottom:5px;
+}
+.profile-menu button:last-child{margin-bottom:0}
+.profile-menu .pm-profil{background:var(--accent-soft);color:var(--accent)}
+.profile-menu .pm-profil:hover{filter:brightness(.95)}
+.profile-menu .pm-logout{background:var(--err-bg);color:var(--err)}
+.profile-menu .pm-logout:hover{filter:brightness(.95)}
+.pm-arrow{margin-left:auto;opacity:.55;flex-shrink:0}
 
 /* LAYOUT */
 .app-body{margin-top:var(--topbar);min-height:calc(100vh - var(--topbar))}
@@ -227,28 +265,10 @@ body.sb-collapsed .main-content{
 @keyframes pgIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 
 /* COMPOSE */
-.compose-box{background:var(--bg-surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:14px;box-shadow:var(--card-shadow)}
-.compose-inner{width: 100%;display:flex;align-items:center;gap:10px; }
-.compose-input {
-  flex: 1;
-  min-width: 0;
-  background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 9px 16px;
-  font-family: var(--font);
-  font-size: 14px;
-  color: var(--t2);
-  cursor: text;
-  transition: border-color .15s;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}.compose-input:hover{border-color:var(--border2);color:var(--t1)}
-.compose-acts{display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
-.compose-act{display:flex;align-items:center;gap:5px;padding:4px 9px;border-radius:6px;background:none;border:none;cursor:pointer;font-size:12.5px;font-weight:500;color:var(--t2);font-family:var(--font);transition:all .15s}
-.compose-act:hover{background:var(--bg-hover);color:var(--t1)}
-.compose-act svg{width:13px;height:13px}
+.compose-box{background:var(--bg-surface);border:1px solid var(--border);border-radius:14px;padding:12px 16px;margin-bottom:14px;box-shadow:var(--card-shadow);cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.compose-box:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.compose-inner{width:100%;display:flex;align-items:center;gap:12px}
+.compose-input{flex:1;min-width:0;background:var(--bg-input);border:none;border-radius:24px;padding:10px 18px;font-family:var(--font);font-size:14.5px;color:var(--t3);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 
 /* FEED TABS */
 .feed-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:14px}
@@ -282,9 +302,8 @@ body.dark .chip-red{border-color:rgba(232,116,116,0.25)}
 .ptime{font-size:12.5px;color:var(--t3)}
 .post-txt{font-size:15.5px;color:var(--t1);line-height:1.75;margin-bottom:12px}
 .post-img{border-radius:9px;overflow:hidden;margin-bottom:12px;border:1px solid var(--border);cursor:pointer;background:var(--bg-input)}
-.post-img img{width:100%;height:auto;max-height:500px;object-fit:contain;display:block;transition:transform 0.2s}
-.post-img.landscape img{object-fit:cover;max-height:350px}
-.post-img:hover img{transform:scale(1.01)}
+.post-img img{width:100%;height:320px;object-fit:cover;object-position:center top;display:block;transition:transform 0.2s}
+.post-img:hover img{transform:scale(1.02)}
 .post-acts{display:flex;align-items:center;gap:2px;border-top:1px solid var(--border);padding-top:9px}
 .act-btn{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:6px;font-size:13.5px;font-weight:500;color:var(--t2);cursor:pointer;border:none;background:transparent;font-family:var(--font);transition:all .12s}
 .act-btn svg{width:13px;height:13px}
@@ -575,12 +594,12 @@ body.dark .modal-warning{border-color:rgba(232,116,116,0.18)}
 <div class="topbar">
   <div class="topbar-logo">
     <img class="logo-mark" id="topbar-logo-img" src="/assets/logo-dark.png" alt="Whisper Logo">
-    <span class="logo-name">Whisper</span>
+    <span class="logo-name">Hkeya</span>
   </div>
   <div class="topbar-center">
     <div class="topbar-search-wrap">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input class="topbar-search" placeholder="Rechercher des posts, topics..." id="topSearchInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" oninput="go('recherche')" onfocus="this.value='';go('recherche')" onclick="go('recherche')" type="search">
+      <input class="topbar-search" placeholder="Rechercher des posts, topics..." id="topSearchInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" oninput="syncSearch(this.value)" onfocus="this.value='';go('recherche')" onclick="go('recherche')" type="search">
     </div>
   </div>
   <div class="topbar-right">
@@ -594,8 +613,16 @@ body.dark .modal-warning{border-color:rgba(232,116,116,0.18)}
     <div class="profile-wrap">
       <div class="av-sm" id="topbar-avatar" onclick="toggleProfileMenu(event)">E</div>
       <div class="profile-menu" id="profile-menu">
-        <button onclick="handleProfileAction('profil')">Mon Profil</button>
-        <button onclick="handleProfileAction('logout')">Logout</button>
+        <button class="pm-profil" onclick="handleProfileAction('profil')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Mon Profil
+          <svg class="pm-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button class="pm-logout" onclick="handleProfileAction('logout')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Logout
+          <svg class="pm-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
       </div>
     </div>
   </div>
@@ -624,7 +651,7 @@ body.dark .modal-warning{border-color:rgba(232,116,116,0.18)}
       <span class="badge" id="nb2">3</span>
     </button>
     <div class="sb-divider"></div>
-    <div class="sb-topics" id="sb-topics" onclick="event.stopPropagation()">
+    <div class="sb-topics open" id="sb-topics" onclick="event.stopPropagation()">
       <div class="sb-topic-head" onclick="toggleTopicsSection(event)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         <span class="nav-label">Topics</span>
@@ -758,12 +785,9 @@ body.dark .modal-warning{border-color:rgba(232,116,116,0.18)}
   </div>
   <div class="compose-box" onclick="openM('createM')">
     <div class="compose-inner">
-            <button class="compose-act" onclick="event.stopPropagation();openM('createM')">
-
-      <div class="av av1" id="compose-av" style="width:36px;height:36px;font-size:12px;flex-shrink:0">E</div>
-      <div class="compose-input">Partagez quelque chose anonymement…</div>
+      <div class="av av1" id="compose-av" style="width:38px;height:38px;font-size:13px;flex-shrink:0">M</div>
+      <div class="compose-input" id="compose-placeholder">Partagez quelque chose anonymement…</div>
     </div>
-    
   </div>
   <div class="feed-tabs">
     <button class="feed-tab on" onclick="ft(this,'populaires')">Populaires</button>
@@ -809,46 +833,51 @@ body.dark .modal-warning{border-color:rgba(232,116,116,0.18)}
   <div class="page-head"><h1 class="page-title">Rechercher</h1></div>
   <div class="search-wrap">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input class="search-main" id="searchInput" placeholder="Posts, topics, utilisateurs…" oninput="doSearch(this.value)">
+    <input class="search-main" id="searchInput" placeholder="Posts, topics, utilisateurs…" oninput="doSearch(this.value)" autocomplete="off">
   </div>
+
+  <!-- État par défaut -->
   <div id="search-default">
-    <div class="section-label" style="margin-bottom:8px">Recherches récentes</div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px">
-      <button style="padding:4px 12px;border-radius:14px;background:var(--bg-surface);border:1px solid var(--border);font-size:12.5px;color:var(--t2);cursor:pointer;font-family:var(--font);transition:all .15s" onclick="fillSearch('Intelligence Artificielle')">Intelligence Artificielle</button>
-      <button style="padding:4px 12px;border-radius:14px;background:var(--bg-surface);border:1px solid var(--border);font-size:12.5px;color:var(--t2);cursor:pointer;font-family:var(--font)" onclick="fillSearch('Santé mentale')">Santé mentale</button>
-      <button style="padding:4px 12px;border-radius:14px;background:var(--bg-surface);border:1px solid var(--border);font-size:12.5px;color:var(--t2);cursor:pointer;font-family:var(--font)" onclick="fillSearch('Télétravail')">Télétravail</button>
-    </div>
-    <div class="section-label" style="margin-bottom:8px">Topics tendances</div>
-    <div class="topics-grid">
-      <div class="topic-card"><div class="topic-icon ti-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div style="flex:1"><div class="topic-name">Technologie</div><div class="topic-meta">1.2k posts cette semaine</div></div><button class="follow-btn fw" onclick="toggleFollowBtn(this,event)">Suivi</button></div>
-      <div class="topic-card"><div class="topic-icon ti-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div style="flex:1"><div class="topic-name">Santé</div><div class="topic-meta">880 posts cette semaine</div></div><button class="follow-btn" onclick="toggleFollowBtn(this,event)">Suivre</button></div>
-    </div>
+    <div class="section-label" style="margin-bottom:10px">Topics tendances</div>
+    <div id="search-topics-grid" class="topics-grid"></div>
   </div>
+
+  <!-- Résultats -->
   <div id="search-results" style="display:none;animation:pgIn .2s ease">
-    <div style="margin-bottom:14px">
+    <!-- Chargement -->
+    <div id="search-loading" style="display:none;text-align:center;padding:36px 0;color:var(--t3)">
+      <p>Recherche en cours…</p>
+    </div>
+
+    <!-- Utilisateurs -->
+    <div id="search-users-section" style="display:none;margin-bottom:18px">
       <div class="section-label" style="margin-bottom:8px">Utilisateurs</div>
-      <div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:10px;padding:10px 13px;display:flex;align-items:center;gap:11px;cursor:pointer;margin-bottom:6px;transition:all .15s" onclick="toast('Profil bientôt disponible','i')">
-        <div class="av av1" style="width:34px;height:34px;font-size:12px">C</div>
-        <div style="flex:1"><div style="font-size:13.5px;font-weight:600;color:var(--t1)">CyberNinja99</div><div style="font-size:12px;color:var(--t2);margin-top:1px">47 posts · Technologie, Santé</div></div>
-        <span class="chip chip-blue" style="font-size:10.5px">Membre</span>
-      </div>
+      <div id="search-users-list"></div>
     </div>
-    <div class="section-label" style="margin-bottom:8px">Posts correspondants</div>
-    <div class="post-card" onclick="go('detail')" style="margin-bottom:7px">
-      <div class="post-head"><div class="post-user"><div class="av av1">C</div><div><div class="pun">CyberNinja99</div><div class="pmeta"><span class="chip chip-blue">Technologie</span><span class="ptime">il y a 2h</span></div></div></div></div>
-      <div class="post-txt">Je pense que nous sous-estimons l'impact de l'<mark style="background:var(--accent-soft);color:var(--accent);border-radius:3px;padding:0 2px">IA</mark> générative sur les métiers créatifs…</div>
-      <div class="post-acts"><button class="act-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/></svg>124</button><button class="act-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>45</button></div>
+
+    <!-- Topics -->
+    <div id="search-topics-section" style="display:none;margin-bottom:18px">
+      <div class="section-label" style="margin-bottom:8px">Topics</div>
+      <div id="search-topics-list"></div>
     </div>
-    <div id="sr-empty" style="display:none;text-align:center;padding:36px 0;color:var(--t3)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;margin:0 auto 9px;display:block"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <p style="font-size:13.5px">Aucun résultat pour cette recherche</p>
+
+    <!-- Posts -->
+    <div id="search-posts-section" style="display:none">
+      <div class="section-label" style="margin-bottom:8px">Publications</div>
+      <div id="search-posts-list"></div>
+    </div>
+
+    <!-- Aucun résultat -->
+    <div id="sr-empty" style="display:none;text-align:center;padding:48px 0;color:var(--t3)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:36px;height:36px;margin:0 auto 10px;display:block;opacity:.4"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <p style="font-size:14px">Aucun résultat pour cette recherche</p>
     </div>
   </div>
 </div>
 
 <!-- NOTIFS -->
 <div class="page" id="p-notifs">
-  <div class="notif-wrap">
+  <div class="notif-wrap" id="notifs-wrap">
     <div class="notif-header">
       <h1 class="notif-title">Notifications</h1>
       <p class="notif-sub">Vos notifications personnelles.</p>
@@ -1011,16 +1040,18 @@ body.dark .modal-warning{border-color:rgba(232,116,116,0.18)}
 <!-- ADMIN -->
 <div class="page" id="p-admin">
   <div class="page-head"><h1 class="page-title">Administration</h1></div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">
-    <div class="stat-card"><div class="stat-card-label">Utilisateurs</div><div class="stat-card-value color-ok">4</div><div class="stat-card-sub color-ok">Comptes visibles</div></div>
-    <div class="stat-card"><div class="stat-card-label">Topics</div><div class="stat-card-value" style="color:var(--accent)">3</div><div class="stat-card-sub" style="color:var(--accent)">Catégories actives</div></div>
-    <div class="stat-card"><div class="stat-card-label">Signalements</div><div class="stat-card-value color-err" id="admin-reports-count">2</div><div class="stat-card-sub color-err">À traiter</div></div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px">
+    <div class="stat-card"><div class="stat-card-label">Utilisateurs</div><div class="stat-card-value color-ok" id="admin-stat-users">—</div><div class="stat-card-sub color-ok">Comptes actifs</div></div>
+    <div class="stat-card"><div class="stat-card-label">Topics</div><div class="stat-card-value" style="color:var(--accent)" id="admin-stat-topics">—</div><div class="stat-card-sub" style="color:var(--accent)">Catégories actives</div></div>
   </div>
   <div class="admin-wrap">
     <div class="admin-nav">
-      <button class="admin-nav-item active" onclick="swAdmin(this,'au')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Utilisateurs</button>
-      <button class="admin-nav-item" onclick="swAdmin(this,'at')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Topics</button>
-      <button class="admin-nav-item" onclick="swAdmin(this,'asig')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>Signalements <span id="adminSigBadge" style="background:var(--err-bg);color:var(--err);font-size:9.5px;padding:1px 5px;border-radius:7px;margin-left:2px;font-weight:700">2</span></button>
+      <button class="admin-nav-item active" onclick="swAdmin(this,'au')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Utilisateurs
+      </button>
+      <button class="admin-nav-item" onclick="swAdmin(this,'at')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Topics
+      </button>
     </div>
     <div>
       <!-- Users panel -->
@@ -1029,48 +1060,41 @@ body.dark .modal-warning{border-color:rgba(232,116,116,0.18)}
           <div class="admin-section-title">Gestion des membres</div>
           <div style="position:relative">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:9px;top:50%;transform:translateY(-50%);width:12px;height:12px;color:var(--t3)"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            <input class="form-inp" style="height:32px;padding-left:28px;width:220px;font-size:12.5px" placeholder="Rechercher par pseudo/email…">
+            <input class="form-inp" id="admin-user-search" style="height:32px;padding-left:28px;width:220px;font-size:12.5px" placeholder="Rechercher par pseudo/email…" oninput="filterAdminUsers(this.value)">
           </div>
         </div>
-        <div class="full-width-table"><table class="data-table">
-          <thead><tr><th>Nom appli</th><th>Email</th><th>Nom complet réel</th><th>Téléphone</th><th>Actions</th></tr></thead>
-          <tbody>
-          <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av av1" style="width:22px;height:22px;font-size:9px">C</div><span style="font-size:13px">CyberNinja99</span></div></td><td style="color:var(--t2);font-size:12px">cyber99@gmail.com</td><td style="color:var(--t2);font-size:12px">Karim Ben Salem</td><td style="color:var(--t2);font-size:12px">+216 21 111 222</td><td><div class="inline-actions"><button class="btn btn-danger btn-sm" onclick="adminDeleteUser(this,'CyberNinja99')">Supprimer</button></div></td></tr>
-          <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av av2" style="width:22px;height:22px;font-size:9px">D</div><span style="font-size:13px">DevAnonyme</span></div></td><td style="color:var(--t2);font-size:12px">dev.anon@proton.me</td><td style="color:var(--t2);font-size:12px">Aymen Trabelsi</td><td style="color:var(--t2);font-size:12px">+216 55 333 888</td><td><div class="inline-actions"><button class="btn btn-danger btn-sm" onclick="adminDeleteUser(this,'DevAnonyme')">Supprimer</button></div></td></tr>
-          <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av av4" style="width:22px;height:22px;font-size:9px">H</div><span style="font-size:13px">HackAnon88</span></div></td><td style="color:var(--t2);font-size:12px">h.anon88@mail.com</td><td style="color:var(--t2);font-size:12px">Mourad Gharbi</td><td style="color:var(--t2);font-size:12px">+216 98 444 777</td><td><div class="inline-actions"><button class="btn btn-danger btn-sm" onclick="adminDeleteUser(this,'HackAnon88')">Supprimer</button></div></td></tr>
-          <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av av1" style="width:22px;height:22px;font-size:9px">E</div><span style="font-size:13px">EtoileLibre42</span></div></td><td style="color:var(--t2);font-size:12px">etoile42@iit.tn</td><td style="color:var(--t2);font-size:12px">Mahmoud Kchaou</td><td style="color:var(--t2);font-size:12px">+216 20 000 000</td><td><span style="font-size:11.5px;color:var(--t3)">Compte courant</span></td></tr>
-          </tbody>
-        </table></div>
+        <div class="full-width-table">
+          <table class="data-table">
+            <thead><tr><th>Utilisateur</th><th>Email</th><th>Nom complet</th><th>Téléphone</th><th>Rôle</th><th>Statut</th><th>Actions</th></tr></thead>
+            <tbody id="admin-users-body">
+              <tr><td colspan="7" style="text-align:center;padding:20px;color:var(--t3)">Chargement...</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- Topics panel -->
       <div class="admin-panel" id="at">
-        <div class="admin-section-header"><div class="admin-section-title">Topics de la plateforme</div><button class="btn btn-primary btn-sm" onclick="toggleAdminTopicForm()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px"><path d="M12 5v14M5 12h14"/></svg>Ajouter</button></div>
+        <div class="admin-section-header">
+          <div class="admin-section-title">Topics de la plateforme</div>
+          <button class="btn btn-primary btn-sm" onclick="toggleAdminTopicForm()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px"><path d="M12 5v14M5 12h14"/></svg>Ajouter
+          </button>
+        </div>
         <div id="admin-topic-form" style="display:none;background:var(--bg-surface2);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px">
           <div style="display:grid;grid-template-columns:1fr 150px auto;gap:8px;align-items:end">
             <div><label class="form-label">Nom du topic</label><input class="form-inp" id="new-topic-name" placeholder="Ex: Cybersécurité"></div>
-            <div><label class="form-label">Type icône</label><select class="select-inp" id="new-topic-style"><option value="ti-blue">Bleu</option><option value="ti-green">Vert</option><option value="ti-amber">Ambre</option><option value="ti-red">Rouge</option></select></div>
+            <div><label class="form-label">Couleur</label><select class="select-inp" id="new-topic-style"><option value="ti-blue">Bleu</option><option value="ti-green">Vert</option><option value="ti-amber">Ambre</option><option value="ti-red">Rouge</option><option value="ti-purple">Violet</option><option value="ti-teal">Teal</option></select></div>
             <button class="btn btn-primary" onclick="addAdminTopic()">Créer</button>
           </div>
         </div>
-        <div class="full-width-table"><table class="data-table">
-          <thead><tr><th>Topic</th><th>Publications</th><th>Membres</th><th>Statut</th><th>Actions</th></tr></thead>
-          <tbody id="admin-topics-body">
-          <tr id="topic-tech"><td><div style="display:flex;align-items:center;gap:7px"><div class="topic-icon ti-blue" style="width:24px;height:24px;border-radius:5px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><span style="font-size:13px">Technologie</span></div></td><td style="font-size:13px">3.2k</td><td style="font-size:13px">12.4k</td><td><span class="status-chip sc-active">Actif</span></td><td><div class="inline-actions"><button class="btn btn-outline btn-sm" onclick="toast('Édition de Technologie','i')">Éditer</button></div></td></tr>
-          <tr id="topic-sante"><td><div style="display:flex;align-items:center;gap:7px"><div class="topic-icon ti-green" style="width:24px;height:24px;border-radius:5px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><span style="font-size:13px">Santé</span></div></td><td style="font-size:13px">2.1k</td><td style="font-size:13px">8.8k</td><td><span class="status-chip sc-active">Actif</span></td><td><div class="inline-actions"><button class="btn btn-outline btn-sm" onclick="toast('Édition de Santé','i')">Éditer</button></div></td></tr>
-          <tr id="topic-edu"><td><div style="display:flex;align-items:center;gap:7px"><div class="topic-icon ti-amber" style="width:24px;height:24px;border-radius:5px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><span style="font-size:13px">Éducation</span></div></td><td style="font-size:13px">1.4k</td><td style="font-size:13px">6.2k</td><td><span class="status-chip sc-active">Actif</span></td><td><div class="inline-actions"><button class="btn btn-outline btn-sm" onclick="toast('Édition de Éducation','i')">Éditer</button></div></td></tr>
-          </tbody>
-        </table></div>
-      </div>
-
-      <!-- Reports panel -->
-      <div class="admin-panel" id="asig">
-        <div class="admin-section-header">
-          <div class="admin-section-title">Signalements à traiter</div>
-          <span id="admin-sig-count" style="font-size:12px;color:var(--t2)">—</span>
-        </div>
-        <div id="admin-reports-list">
-          <div style="padding:20px;text-align:center;color:var(--t3)">Chargement...</div>
+        <div class="full-width-table">
+          <table class="data-table">
+            <thead><tr><th>Topic</th><th>Publications</th><th>Actions</th></tr></thead>
+            <tbody id="admin-topics-body">
+              <tr><td colspan="3" style="text-align:center;padding:20px;color:var(--t3)">Chargement...</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -1170,15 +1194,8 @@ body.dark .modal-warning{border-color:rgba(232,116,116,0.18)}
     </div>
 
     <div class="form-row">
-      <label class="form-label">Topic <span style="color:var(--err)">*</span></label>
       <select class="select-inp" id="post-topic">
-        <option value="">Choisissez un topic…</option>
-        <option>Technologie</option>
-        <option>Santé</option>
-        <option>Éducation</option>
-        <option>Loi & Droit</option>
-        <option>Société</option>
-        <option>Environnement</option>
+        <option value="">Chargement des topics…</option>
       </select>
     </div>
 
@@ -1354,6 +1371,8 @@ function go(p){
   document.querySelectorAll('.nav-item[data-p]').forEach(n=>n.classList.toggle('active',n.dataset.p===p));
   
   if(p === 'moderation') { loadModerationPosts(); loadSignalements(); }
+  if(p === 'admin') { loadAdminUsers(); loadAdminTopics(); loadAdminStats(); }
+  if(p === 'recherche') { loadSearchTopics(); }
   if(p === 'accueil') {
     // Reset to Populaires tab
     document.querySelectorAll('#p-accueil .feed-tab').forEach((t,i) => t.classList.toggle('on', i===0));
@@ -1647,7 +1666,38 @@ function ft(el, tab){
   }
 }
 function toggleAcc(h){h.parentElement.classList.toggle('open');}
-function openM(id){document.getElementById(id).classList.add('open');}
+function openM(id){
+  document.getElementById(id).classList.add('open');
+  if (id === 'createM') {
+    const user = JSON.parse(localStorage.getItem('whisper_user_v1') || '{}');
+    const av = document.getElementById('create-modal-av');
+    const nm = document.getElementById('create-modal-name');
+    if (av) av.textContent = (user.username || user.pseudo || 'M').charAt(0).toUpperCase();
+    if (nm) nm.textContent = user.username || user.pseudo || 'Vous';
+    // Toujours recharger les topics depuis la DB
+    const token = localStorage.getItem('whisper_api_token_v1');
+    const sel = document.getElementById('post-topic');
+    if (sel && token) {
+      sel.innerHTML = '<option value="">Chargement…</option>';
+      fetch('http://localhost:4000/api/topics', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      .then(r => r.json())
+      .then(data => {
+        sel.innerHTML = '<option value="">Choisissez un topic…</option>';
+        if (data.ok && data.topics) {
+          data.topics.forEach(t => {
+            const opt = document.createElement('option');
+            opt.value = t.nom;
+            opt.textContent = t.nom;
+            sel.appendChild(opt);
+          });
+        }
+      })
+      .catch(() => { sel.innerHTML = '<option value="">Erreur chargement topics</option>'; });
+    }
+  }
+}
 function closeM(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
 
@@ -1753,21 +1803,42 @@ function updBadge(){
 }
 
 function setNotifFilter(btn){
-  const mode=btn.dataset.notifFilter||'all';
-  document.querySelectorAll('.notif-pill').forEach(p=>p.classList.remove('active'));
+  const mode = btn.dataset.notifFilter || 'all';
+  document.querySelectorAll('.notif-pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
 
-  const cards=[...document.querySelectorAll('#p-notifs .notif-card')];
-  cards.forEach(card=>{
-    const kind=card.dataset.kind||'system';
-    const show=mode==='all'||kind===mode;
-    card.style.display=show?'':'none';
+  const cards = [...document.querySelectorAll('#p-notifs .notif-card')];
+  let visibleCount = 0;
+
+  cards.forEach(card => {
+    const kind = card.dataset.kind || 'system';
+    const show = mode === 'all' || kind === mode;
+    card.style.display = show ? '' : 'none';
+    if (show) visibleCount++;
   });
 
-  document.querySelectorAll('#p-notifs .notif-group').forEach(group=>{
-    const hasVisible=[...group.querySelectorAll('.notif-card')].some(card=>card.style.display!=='none');
-    group.style.display=hasVisible?'':'none';
+  // Cacher les groupes vides
+  document.querySelectorAll('#p-notifs .notif-group').forEach(group => {
+    const hasVisible = [...group.querySelectorAll('.notif-card')].some(c => c.style.display !== 'none');
+    group.style.display = hasVisible ? '' : 'none';
   });
+
+  // Afficher message si aucune notification pour ce filtre
+  const wrap = document.getElementById('notifs-wrap');
+  let emptyEl = document.getElementById('notif-filter-empty');
+  if (visibleCount === 0 && cards.length > 0) {
+    if (!emptyEl) {
+      emptyEl = document.createElement('div');
+      emptyEl.id = 'notif-filter-empty';
+      emptyEl.style.cssText = 'padding:32px;text-align:center;color:var(--t3)';
+      if (wrap) wrap.appendChild(emptyEl);
+    }
+    const labels = { like: 'likes', comment: 'commentaires' };
+    emptyEl.textContent = `Aucune notification de type "${labels[mode] || mode}".`;
+    emptyEl.style.display = '';
+  } else if (emptyEl) {
+    emptyEl.style.display = 'none';
+  }
 }
 
 function subCmt(){const inp=document.getElementById('ci');if(!inp||!inp.value.trim()){toast('Le commentaire ne peut pas être vide','e');return;}toast('Commentaire publié','s');inp.value='';}
@@ -2041,8 +2112,15 @@ function renderNotificationsPage(notifications) {
   const header = wrap.querySelector('.notif-header');
   const filterRow = wrap.querySelector('.notif-filter-row');
 
-  // Supprimer les anciens groupes
+  // Supprimer les anciens groupes et le message vide de filtre
   wrap.querySelectorAll('.notif-group').forEach(g => g.remove());
+  const oldEmpty = document.getElementById('notif-filter-empty');
+  if (oldEmpty) oldEmpty.remove();
+
+  // Réinitialiser le filtre à "Toutes"
+  document.querySelectorAll('.notif-pill').forEach(p => p.classList.remove('active'));
+  const allPill = document.querySelector('.notif-pill[data-notif-filter="all"]');
+  if (allPill) allPill.classList.add('active');
 
   if (!notifications || notifications.length === 0) {
     const empty = document.createElement('div');
@@ -2079,10 +2157,18 @@ function renderNotificationsPage(notifications) {
   const stack = document.createElement('div');
   stack.className = 'notif-stack';
 
+  const kindMap = {
+    LIKE: 'like', DISLIKE: 'like',
+    COMMENTAIRE: 'comment',
+    SIGNALEMENT: 'system', POST_VALIDE: 'system', POST_REJETE: 'system', NOUVEAU_POST: 'system',
+  };
+
   notifications.forEach(n => {
     const card = document.createElement('div');
+    const kind = kindMap[n.type] || 'system';
     card.className = `notif-card ${n.lu ? '' : 'unread'}`;
     card.id = `notif-${n.id}`;
+    card.dataset.kind = kind;
     const timeAgo = getTimeAgo(n.createdAt);
     const from = n.expediteur?.pseudo || 'Système';
     card.innerHTML = `
@@ -2230,7 +2316,7 @@ function loadModerationPosts() {
       
       let imageHtml = '';
       if (post.image) {
-        imageHtml = `<div style="margin:12px 0"><img src="${post.image}" style="width:100%;max-height:300px;object-fit:cover;border-radius:8px;border:1px solid var(--border)"></div>`;
+        imageHtml = `<div style="margin:12px 0"><img src="${getImageSrc(post.image)}" style="width:100%;height:280px;object-fit:cover;border-radius:8px;border:1px solid var(--border)"></div>`;
       }
       
       previewItem.innerHTML = `
@@ -2335,6 +2421,14 @@ function rejectPost(postId) {
   });
 }
 
+// Helper : construit l'URL d'une image (base64 ou fichier uploadé)
+function getImageSrc(image) {
+  if (!image) return null;
+  if (image.startsWith('data:')) return image;           // base64
+  if (image.startsWith('http')) return image;            // URL absolue
+  return 'http://localhost:4000/uploads/' + image;       // nom de fichier
+}
+
 function getTimeAgo(timestamp) {
   const now = new Date();
   const postTime = new Date(timestamp);
@@ -2402,7 +2496,8 @@ function swAdmin(el,pid){
   document.querySelectorAll('.admin-nav-item').forEach(i=>i.classList.remove('active'));el.classList.add('active');
   document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('on'));
   const panel=document.getElementById(pid);if(panel)panel.classList.add('on');
-  if(pid === 'asig') loadSignalements();
+  if(pid === 'au') loadAdminUsers();
+  if(pid === 'at') loadAdminTopics();
 }
 
 function selMod(el,prevId){
@@ -2605,21 +2700,226 @@ function toggleAdminTopicForm(){
   form.style.display=form.style.display==='none' || !form.style.display?'':'none';
 }
 
+// ── Admin : charger les utilisateurs ─────────────────────────────────────────
+function loadAdminUsers() {
+  const token = localStorage.getItem('whisper_api_token_v1');
+  const tbody = document.getElementById('admin-users-body');
+  if (!token || !tbody) return;
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--t3)">Chargement...</td></tr>';
+
+  const currentUser = JSON.parse(localStorage.getItem('whisper_user_v1') || '{}');
+
+  fetch('http://localhost:4000/api/admin/users', {
+    headers: { 'Authorization': `Bearer ${token}` }
+  })
+  .then(r => { if (r.status === 401) { handleSessionExpired(); return null; } return r.json(); })
+  .then(data => {
+    if (!data || !data.ok) return;
+    tbody.innerHTML = '';
+    const avColors = ['av1','av2','av3','av4','av5','av6'];
+    const roleMap = { ADMIN: 'Administrateur', MODERATEUR: 'Modérateur', CLIENT: 'Membre' };
+    const roleChip = { ADMIN: 'chip-amber', MODERATEUR: 'chip-green', CLIENT: 'chip-blue' };
+
+    data.users.forEach((u, idx) => {
+      const av = (u.pseudo || '?').charAt(0).toUpperCase();
+      const avClass = avColors[idx % avColors.length];
+      const isSelf = u.id === currentUser.id;
+      const isAdmin = u.role === 'ADMIN';
+      const suspended = u.suspendu ? '<span class="chip chip-red" style="font-size:10px">Suspendu</span>' : '<span class="chip chip-green" style="font-size:10px">Actif</span>';
+      const roleLabel = roleMap[u.role] || u.role;
+      const roleClass = roleChip[u.role] || 'chip-blue';
+
+      const tr = document.createElement('tr');
+      tr.id = `admin-user-${u.id}`;
+      tr.dataset.pseudo = (u.pseudo || '').toLowerCase();
+      tr.dataset.email = (u.email || '').toLowerCase();
+      tr.innerHTML = `
+        <td><div style="display:flex;align-items:center;gap:7px">
+          <div class="av ${avClass}" style="width:22px;height:22px;font-size:9px">${av}</div>
+          <span style="font-size:13px;font-weight:600">${u.pseudo || '—'}</span>
+        </div></td>
+        <td style="color:var(--t2);font-size:12px">${u.email || '—'}</td>
+        <td style="color:var(--t2);font-size:12px">${(u.prenom || '') + ' ' + (u.nom || '')}</td>
+        <td style="color:var(--t2);font-size:12px">${u.telephone || '—'}</td>
+        <td><span class="chip ${roleClass}" style="font-size:10px">${roleLabel}</span></td>
+        <td>${suspended}</td>
+        <td><div class="inline-actions">
+          ${isSelf ? '<span style="font-size:11.5px;color:var(--t3)">Compte courant</span>' : `
+            ${u.suspendu
+              ? `<button class="btn btn-outline btn-sm" onclick="adminUnsuspendUser(${u.id})">Réactiver</button>`
+              : `<button class="btn btn-warn btn-sm" onclick="adminSuspendUser(${u.id}, '${u.pseudo}')">Suspendre</button>`
+            }
+            ${!isAdmin ? `<button class="btn btn-danger btn-sm" onclick="adminDeleteUser(${u.id}, '${u.pseudo}')">Supprimer</button>` : ''}
+          `}
+        </div></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // Update stat
+    const statEl = document.getElementById('admin-stat-users');
+    if (statEl) statEl.textContent = data.users.length;
+  })
+  .catch(err => {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--err)">Erreur de chargement</td></tr>';
+  });
+}
+
+function filterAdminUsers(query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll('#admin-users-body tr').forEach(tr => {
+    const pseudo = tr.dataset.pseudo || '';
+    const email = tr.dataset.email || '';
+    tr.style.display = (!q || pseudo.includes(q) || email.includes(q)) ? '' : 'none';
+  });
+}
+
+function adminDeleteUser(userId, pseudo) {
+  const token = localStorage.getItem('whisper_api_token_v1');
+  if (!token) return;
+  if (!confirm(`Supprimer l'utilisateur "${pseudo}" et toutes ses publications ?`)) return;
+
+  fetch(`http://localhost:4000/api/admin/users/${userId}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      toast(`Utilisateur ${pseudo} supprimé`, 's');
+      loadAdminUsers();
+    } else { toast(data.message || 'Erreur', 'e'); }
+  })
+  .catch(() => toast('Erreur réseau', 'e'));
+}
+
+function adminSuspendUser(userId, pseudo) {
+  const token = localStorage.getItem('whisper_api_token_v1');
+  if (!token) return;
+  if (!confirm(`Suspendre "${pseudo}" ? Il ne pourra plus se connecter.`)) return;
+
+  fetch(`http://localhost:4000/api/admin/users/${userId}/suspend`, {
+    method: 'PATCH',
+    headers: { 'Authorization': `Bearer ${token}` }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) { toast(`${pseudo} suspendu`, 's'); loadAdminUsers(); }
+    else { toast(data.message || 'Erreur', 'e'); }
+  })
+  .catch(() => toast('Erreur réseau', 'e'));
+}
+
+function adminUnsuspendUser(userId) {
+  const token = localStorage.getItem('whisper_api_token_v1');
+  if (!token) return;
+
+  fetch(`http://localhost:4000/api/admin/users/${userId}/unsuspend`, {
+    method: 'PATCH',
+    headers: { 'Authorization': `Bearer ${token}` }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) { toast('Compte réactivé', 's'); loadAdminUsers(); }
+    else { toast(data.message || 'Erreur', 'e'); }
+  })
+  .catch(() => toast('Erreur réseau', 'e'));
+}
+
+// ── Admin : charger les topics ────────────────────────────────────────────────
+function loadAdminTopics() {
+  const token = localStorage.getItem('whisper_api_token_v1');
+  const tbody = document.getElementById('admin-topics-body');
+  if (!token || !tbody) return;
+  tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:20px;color:var(--t3)">Chargement...</td></tr>';
+
+  fetch('http://localhost:4000/api/topics', {
+    headers: { 'Authorization': `Bearer ${token}` }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!data.ok || !data.topics) return;
+    tbody.innerHTML = '';
+    const colors = ['ti-blue','ti-green','ti-amber','ti-red','ti-purple','ti-teal'];
+
+    data.topics.forEach((t, idx) => {
+      const colorClass = colors[idx % colors.length];
+      const tr = document.createElement('tr');
+      tr.id = `admin-topic-${t.id}`;
+      tr.innerHTML = `
+        <td><div style="display:flex;align-items:center;gap:7px">
+          <div class="topic-icon ${colorClass}" style="width:24px;height:24px;border-radius:5px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </div>
+          <span style="font-size:13px;font-weight:600">${t.nom}</span>
+        </div></td>
+        <td style="font-size:13px;color:var(--t2)">${t.postCount || 0}</td>
+        <td><div class="inline-actions">
+          <button class="btn btn-danger btn-sm" onclick="adminDeleteTopic(${t.id}, '${t.nom}')">Supprimer</button>
+        </div></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    const statEl = document.getElementById('admin-stat-topics');
+    if (statEl) statEl.textContent = data.topics.length;
+  })
+  .catch(() => {
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:20px;color:var(--err)">Erreur de chargement</td></tr>';
+  });
+}
+
+function adminDeleteTopic(topicId, nom) {
+  const token = localStorage.getItem('whisper_api_token_v1');
+  if (!token) return;
+  if (!confirm(`Supprimer le topic "${nom}" ?`)) return;
+
+  fetch(`http://localhost:4000/api/topics/${topicId}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) { toast(`Topic "${nom}" supprimé`, 's'); loadAdminTopics(); loadSidebarTopics(); }
+    else { toast(data.message || 'Erreur', 'e'); }
+  })
+  .catch(() => toast('Erreur réseau', 'e'));
+}
+
 function addAdminTopic(){
-  const nameEl=document.getElementById('new-topic-name');
-  const styleEl=document.getElementById('new-topic-style');
-  if(!nameEl||!styleEl)return;
-  const name=nameEl.value.trim();
-  if(!name){toast('Nom du topic requis','e');return;}
-  const cls=styleEl.value;
-  const tbody=document.getElementById('admin-topics-body');
-  if(!tbody)return;
-  const tr=document.createElement('tr');
-  tr.innerHTML='<td><div style="display:flex;align-items:center;gap:7px"><div class="topic-icon '+cls+'" style="width:24px;height:24px;border-radius:5px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><span style="font-size:13px"></span></div></td><td style="font-size:13px">0</td><td style="font-size:13px">0</td><td><span class="status-chip sc-active">Actif</span></td><td><div class="inline-actions"><button class="btn btn-outline btn-sm" onclick="toast(\'Édition de '+name.replace(/'/g,"\\'")+'\',\'i\')">Éditer</button></div></td>';
-  tr.querySelector('span').textContent=name;
-  tbody.prepend(tr);
-  nameEl.value='';
-  toast('Topic ajouté','s');
+  const nameEl = document.getElementById('new-topic-name');
+  const styleEl = document.getElementById('new-topic-style');
+  if (!nameEl || !styleEl) return;
+  const name = nameEl.value.trim();
+  if (!name) { toast('Nom du topic requis', 'e'); return; }
+
+  const token = localStorage.getItem('whisper_api_token_v1');
+  if (!token) return;
+
+  fetch('http://localhost:4000/api/topics', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify({ nom: name })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      nameEl.value = '';
+      document.getElementById('admin-topic-form').style.display = 'none';
+      toast(`Topic "${name}" créé`, 's');
+      loadAdminTopics();
+      loadSidebarTopics();
+    } else { toast(data.message || 'Erreur', 'e'); }
+  })
+  .catch(() => toast('Erreur réseau', 'e'));
+}
+
+function loadAdminStats() {
+  const token = localStorage.getItem('whisper_api_token_v1');
+  if (!token) return;
+  // Stats are loaded by loadAdminUsers and loadAdminTopics
+  loadAdminUsers();
+  loadAdminTopics();
 }
 
 function decSig(){
@@ -2699,18 +2999,189 @@ function saveProfile(){
 let searchTimeout=null;
 function doSearch(val){
   clearTimeout(searchTimeout);
-  const def=document.getElementById('search-default');
-  const res=document.getElementById('search-results');
-  if(!val||!val.trim()){def.style.display='block';res.style.display='none';return;}
-  searchTimeout=setTimeout(()=>{
-    def.style.display='none';res.style.display='block';
-    const kw=val.toLowerCase();
-    const hasRes=['ia','intelligence','santé','technologie','education','éducation','anonyme','ninja','dev','star','télétravail','stress'].some(k=>kw.includes(k));
-    const empty=document.getElementById('sr-empty');
-    if(empty)empty.style.display=hasRes?'none':'block';
-  },300);
+  const def = document.getElementById('search-default');
+  const res = document.getElementById('search-results');
+  const q = (val || '').trim();
+
+  if (!q || q.length < 2) {
+    def.style.display = 'block';
+    res.style.display = 'none';
+    return;
+  }
+
+  def.style.display = 'none';
+  res.style.display = 'block';
+
+  // Show loading
+  document.getElementById('search-loading').style.display = 'block';
+  document.getElementById('search-users-section').style.display = 'none';
+  document.getElementById('search-topics-section').style.display = 'none';
+  document.getElementById('search-posts-section').style.display = 'none';
+  document.getElementById('sr-empty').style.display = 'none';
+
+  searchTimeout = setTimeout(() => {
+    const token = localStorage.getItem('whisper_api_token_v1');
+    if (!token) return;
+
+    fetch(`http://localhost:4000/api/search?q=${encodeURIComponent(q)}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById('search-loading').style.display = 'none';
+      if (!data.ok) return;
+
+      const { users, posts, topics } = data;
+      const hasResults = users.length > 0 || posts.length > 0 || topics.length > 0;
+
+      if (!hasResults) {
+        document.getElementById('sr-empty').style.display = 'block';
+        return;
+      }
+
+      const avColors = ['av1','av2','av3','av4','av5','av6'];
+      const roleChip = { 'Administrateur':'chip-amber', 'Modérateur':'chip-green', 'Membre':'chip-blue' };
+
+      // ── Utilisateurs ──
+      if (users.length > 0) {
+        const sec = document.getElementById('search-users-section');
+        const list = document.getElementById('search-users-list');
+        list.innerHTML = '';
+        users.forEach((u, i) => {
+          const avClass = avColors[i % avColors.length];
+          const chipClass = roleChip[u.role] || 'chip-blue';
+          const div = document.createElement('div');
+          div.style.cssText = 'background:var(--bg-surface);border:1px solid var(--border);border-radius:10px;padding:10px 13px;display:flex;align-items:center;gap:11px;margin-bottom:6px;transition:all .15s;cursor:pointer';
+          div.onmouseover = () => div.style.borderColor = 'var(--border2)';
+          div.onmouseout  = () => div.style.borderColor = 'var(--border)';
+          div.innerHTML = `
+            <div class="av ${avClass}" style="width:34px;height:34px;font-size:12px;flex-shrink:0">${u.avatar}</div>
+            <div style="flex:1">
+              <div style="font-size:13.5px;font-weight:600;color:var(--t1)">${highlight(u.pseudo, q)}</div>
+              <div style="font-size:12px;color:var(--t2);margin-top:1px">${u.role}</div>
+            </div>
+            <span class="chip ${chipClass}" style="font-size:10.5px">${u.role}</span>
+          `;
+          list.appendChild(div);
+        });
+        sec.style.display = 'block';
+      }
+
+      // ── Topics ──
+      if (topics.length > 0) {
+        const sec = document.getElementById('search-topics-section');
+        const list = document.getElementById('search-topics-list');
+        const colors = ['ti-blue','ti-green','ti-amber','ti-red'];
+        list.innerHTML = '';
+        topics.forEach((t, i) => {
+          const div = document.createElement('div');
+          div.style.cssText = 'background:var(--bg-surface);border:1px solid var(--border);border-radius:10px;padding:10px 13px;display:flex;align-items:center;gap:11px;margin-bottom:6px;cursor:pointer;transition:all .15s';
+          div.onclick = () => { filterHomeByTopic(t.nom, null); };
+          div.innerHTML = `
+            <div class="topic-icon ${colors[i % colors.length]}" style="flex-shrink:0">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </div>
+            <div style="flex:1;font-size:13.5px;font-weight:600;color:var(--t1)">${highlight(t.nom, q)}</div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;color:var(--t3)"><polyline points="9 18 15 12 9 6"/></svg>
+          `;
+          list.appendChild(div);
+        });
+        sec.style.display = 'block';
+      }
+
+      // ── Posts ──
+      if (posts.length > 0) {
+        const sec = document.getElementById('search-posts-section');
+        const list = document.getElementById('search-posts-list');
+        list.innerHTML = '';
+        posts.forEach((post, i) => {
+          const avClass = avColors[i % avColors.length];
+          const timeAgo = getTimeAgo(post.createdAt);
+          const card = document.createElement('div');
+          card.className = 'post-card';
+          card.style.marginBottom = '8px';
+          card.innerHTML = `
+            <div class="post-head">
+              <div class="post-user">
+                <div class="av ${avClass}">${post.authorAvatar}</div>
+                <div>
+                  <div class="pun">${post.author}</div>
+                  <div class="pmeta">
+                    ${post.topic ? `<span class="chip chip-blue">${post.topic}</span>` : ''}
+                    <span class="ptime">${timeAgo}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="post-txt">${highlight(post.texte || '', q)}</div>
+            <div class="post-acts">
+              <button class="act-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/></svg>${post.likesCount || 0}</button>
+              <button class="act-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>${post.commentsCount || 0}</button>
+            </div>
+          `;
+          list.appendChild(card);
+        });
+        sec.style.display = 'block';
+      }
+    })
+    .catch(() => {
+      document.getElementById('search-loading').style.display = 'none';
+      document.getElementById('sr-empty').style.display = 'block';
+    });
+  }, 350);
 }
-function fillSearch(text){const inp=document.getElementById('searchInput');if(inp){inp.value=text;doSearch(text);}}
+
+// Highlight matching text
+function highlight(text, q) {
+  if (!q || !text) return text;
+  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${escaped})`, 'gi'),
+    '<mark style="background:var(--accent-soft);color:var(--accent);border-radius:3px;padding:0 2px">$1</mark>');
+}
+
+function loadSearchTopics() {
+  const token = localStorage.getItem('whisper_api_token_v1');
+  const grid = document.getElementById('search-topics-grid');
+  if (!token || !grid) return;
+
+  fetch('http://localhost:4000/api/topics', {
+    headers: { 'Authorization': `Bearer ${token}` }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!data.ok || !data.topics) return;
+    const colors = ['ti-blue','ti-green','ti-amber','ti-red','ti-purple','ti-teal'];
+    grid.innerHTML = '';
+    data.topics.forEach((t, i) => {
+      const div = document.createElement('div');
+      div.className = 'topic-card';
+      div.style.cursor = 'pointer';
+      div.onclick = () => filterHomeByTopic(t.nom, null);
+      div.innerHTML = `
+        <div class="topic-icon ${colors[i % colors.length]}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <div style="flex:1">
+          <div class="topic-name">${t.nom}</div>
+          <div class="topic-meta">${t.postCount || 0} publications</div>
+        </div>
+      `;
+      grid.appendChild(div);
+    });
+  })
+  .catch(() => {});
+}
+
+function fillSearch(text){
+  const inp = document.getElementById('searchInput');
+  if (inp) { inp.value = text; doSearch(text); }
+}
+
+function syncSearch(val) {
+  go('recherche');
+  const inp = document.getElementById('searchInput');
+  if (inp) { inp.value = val; doSearch(val); }
+}
 
 document.addEventListener('click',function(){
   closeProfileMenu();
@@ -2787,7 +3258,7 @@ function loadApprovedPosts(mode, topicFilter) {
       const avatar = (post.authorAvatar || post.author?.charAt(0) || 'A').charAt(0).toUpperCase();
       const timeAgo = getTimeAgo(post.createdAt || post.created_at);
       const topicChip = post.topic ? `<span class="chip chip-blue">${post.topic}</span>` : '';
-      const imgHtml = post.image ? `<div class="post-img"><img src="${post.image.startsWith('data:') ? post.image : 'http://localhost:4000/uploads/' + post.image}" alt="image"></div>` : '';
+      const imgHtml = post.image ? `<div class="post-img"><img src="${getImageSrc(post.image)}" alt="image"></div>` : '';
 
       const card = document.createElement('div');
       card.className = 'post-card home-post';
@@ -2986,7 +3457,7 @@ function loadProfilePosts() {
           </div>
         </div>
         ${post.content || post.texte ? `<div class="post-txt">${post.content || post.texte}</div>` : ''}
-        ${post.image ? `<div class="post-img"><img src="${post.image.startsWith('data:') ? post.image : 'http://localhost:4000/uploads/' + post.image}" alt="image"></div>` : ''}
+        ${post.image ? `<div class="post-img"><img src="${getImageSrc(post.image)}" alt="image"></div>` : ''}
       `;
       container.appendChild(card);
     });
@@ -3252,7 +3723,7 @@ function loadHomeMesPosts() {
       const statusChip = post.statut
         ? '<span class="chip chip-green" style="font-size:10px">Validé</span>'
         : '<span class="chip chip-amber" style="font-size:10px">En attente</span>';
-      const imgHtml = post.image ? `<div class="post-img"><img src="${post.image.startsWith('data:') ? post.image : 'http://localhost:4000/uploads/' + post.image}" alt="image"></div>` : '';
+      const imgHtml = post.image ? `<div class="post-img"><img src="${getImageSrc(post.image)}" alt="image"></div>` : '';
 
       const card = document.createElement('div');
       card.className = 'post-card home-post';
@@ -3300,4 +3771,43 @@ function loadHomeMesPosts() {
     if (feed) feed.innerHTML = '<div style="padding:20px;text-align:center;color:var(--err)">Erreur de chargement</div>';
   });
 }
+</script>
+
+<!-- Scroll to top button -->
+<button id="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut" style="
+  position:fixed;
+  bottom:28px;
+  right:28px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  cursor:pointer;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 16px rgba(24,98,210,0.35);
+  z-index:500;
+  transition:opacity .2s, transform .2s;
+">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px">
+    <polyline points="18 15 12 9 6 15"/>
+  </svg>
+</button>
+
+<script>
+(function(){
+  const btn = document.getElementById('scroll-top-btn');
+  window.addEventListener('scroll', function(){
+    if (window.scrollY > 300) {
+      btn.style.display = 'flex';
+      btn.style.opacity = '1';
+    } else {
+      btn.style.opacity = '0';
+      setTimeout(() => { if(window.scrollY <= 300) btn.style.display = 'none'; }, 200);
+    }
+  }, { passive: true });
+})();
 </script>

@@ -1,6 +1,22 @@
-const { Topic } = require('../models');
+const { Topic, Post } = require('../models');
+const { Sequelize } = require('sequelize');
 
-const getAll = () => Topic.findAll({ order: [['nom', 'ASC']] });
+const getAll = async () => {
+  const topics = await Topic.findAll({
+    attributes: {
+      include: [
+        [Sequelize.fn('COUNT', Sequelize.col('Posts.id')), 'postCount']
+      ]
+    },
+    include: [{ model: Post, as: 'Posts', attributes: [], required: false }],
+    group: ['Topic.id'],
+    order: [['nom', 'ASC']],
+  });
+  return topics.map(t => {
+    const j = t.toJSON();
+    return { ...j, postCount: parseInt(j.postCount) || 0 };
+  });
+};
 
 const create = (nom, description) => Topic.create({ nom, description });
 

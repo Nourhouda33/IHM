@@ -22,7 +22,7 @@ const Post = sequelize.define(
       allowNull: true,
     },
     image: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     dateCreation: {

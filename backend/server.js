@@ -13,6 +13,7 @@ const interactionRoutes  = require('./routes/interaction.routes');
 const topicRoutes        = require('./routes/topic.routes');
 const adminRoutes        = require('./routes/admin.routes');
 const notificationRoutes = require('./routes/notification.routes');
+const searchRoutes       = require('./routes/search.routes');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -35,6 +36,7 @@ app.use('/api/interactions',  interactionRoutes);
 app.use('/api/topics',        topicRoutes);
 app.use('/api/admin',         adminRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/search',        searchRoutes);
 
 // ── Health check ──────────────────────────────────────────────
 app.get('/api/health', (req, res) => {

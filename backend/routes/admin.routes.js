@@ -17,4 +17,10 @@ router.delete('/users/:id', ctrl.deleteUser);
 // DELETE /api/admin/posts/:postId/moderer
 router.delete('/posts/:postId/moderer', ctrl.moderatePost);
 
+// PATCH /api/admin/users/:id/suspend
+router.patch('/users/:id/suspend', ctrl.suspendUser);
+
+// PATCH /api/admin/users/:id/unsuspend
+router.patch('/users/:id/unsuspend', ctrl.unsuspendUser);
+
 module.exports = router;

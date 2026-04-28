@@ -12,7 +12,7 @@ User.hasMany(Post, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 Post.belongsTo(User, { foreignKey: 'user_id', as: 'auteur' });
 
 // Topic <-> Post
-Topic.hasMany(Post, { foreignKey: 'topic_id', onDelete: 'RESTRICT' });
+Topic.hasMany(Post, { foreignKey: 'topic_id', as: 'Posts', onDelete: 'RESTRICT' });
 Post.belongsTo(Topic, { foreignKey: 'topic_id', as: 'topic' });
 
 // User <-> Interaction

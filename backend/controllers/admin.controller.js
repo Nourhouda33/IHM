@@ -37,4 +37,25 @@ const moderatePost = async (req, res, next) => {
   }
 };
 
-module.exports = { getUsers, setRole, deleteUser, moderatePost };
+const suspendUser = async (req, res, next) => {
+  try {
+    const { User } = require('../models');
+    const user = await User.findByPk(req.params.id);
+    if (!user) return res.status(404).json({ ok: false, message: 'Utilisateur introuvable' });
+    if (user.role === 'ADMIN') return res.status(403).json({ ok: false, message: 'Impossible de suspendre un administrateur' });
+    await user.update({ suspendu: true });
+    res.json({ ok: true, message: `${user.pseudo} suspendu` });
+  } catch (err) { next(err); }
+};
+
+const unsuspendUser = async (req, res, next) => {
+  try {
+    const { User } = require('../models');
+    const user = await User.findByPk(req.params.id);
+    if (!user) return res.status(404).json({ ok: false, message: 'Utilisateur introuvable' });
+    await user.update({ suspendu: false });
+    res.json({ ok: true, message: `${user.pseudo} réactivé` });
+  } catch (err) { next(err); }
+};
+
+module.exports = { getUsers, setRole, deleteUser, moderatePost, suspendUser, unsuspendUser };
