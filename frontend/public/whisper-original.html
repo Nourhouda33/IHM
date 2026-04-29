@@ -36,7 +36,18 @@ html,body{height:100%;font-family:var(--font);font-size:16px;background:var(--bg
 .topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar);background:var(--topbar-bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;z-index:300;gap:12px}
 .topbar-logo{display:flex;align-items:center;gap:8px;flex-shrink:0;min-width:0}
 .logo-mark{width:42px;height:42px;flex-shrink:0;object-fit:cover;object-position:center;display:block;border-radius:8px}
-.logo-name{font-size:20px;font-weight:800;letter-spacing:-.5px;color:var(--t1);white-space:nowrap}
+.logo-name{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:-1px;
+  background:linear-gradient(135deg,#1a3580 0%,#2757c8 40%,#4d89f5 70%,#8ab6fa 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  white-space:nowrap;
+  font-family:'Georgia','Times New Roman',serif;
+  filter:drop-shadow(0 1px 6px rgba(39,87,200,0.18));
+}
 .topbar-center{flex:1;display:flex;justify-content:center;min-width:0}
 .topbar-search-wrap{position:relative;width:100%;max-width:360px}
 .topbar-search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--t3);width:13px;height:13px;pointer-events:none}
@@ -593,8 +604,28 @@ body.dark .modal-warning{border-color:rgba(232,116,116,0.18)}
 <!-- TOP BAR -->
 <div class="topbar">
   <div class="topbar-logo">
-    <img class="logo-mark" id="topbar-logo-img" src="/assets/logo-dark.png" alt="Whisper Logo">
-    <span class="logo-name">Hkeya</span>
+    <svg width="38" height="38" viewBox="0 0 56 56" fill="none" style="flex-shrink:0">
+      <defs>
+        <linearGradient id="topbarLogoG" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#4d89f5"/>
+          <stop offset="55%" stop-color="#2757c8"/>
+          <stop offset="100%" stop-color="#e8c44a"/>
+        </linearGradient>
+        <radialGradient id="topbarKeyGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#e8c44a" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <path d="M10 30 C10 16 20 8 28 8 C36 8 46 16 46 30 L10 30 Z" fill="url(#topbarLogoG)" opacity="0.92"/>
+      <circle cx="28" cy="22" r="5" fill="#fff" opacity="0.85"/>
+      <path d="M25 25 L25 31 L31 31 L31 25" fill="#fff" opacity="0.85"/>
+      <line x1="28" y1="30" x2="28" y2="46" stroke="url(#topbarLogoG)" stroke-width="3" stroke-linecap="round"/>
+      <line x1="28" y1="38" x2="33" y2="38" stroke="url(#topbarLogoG)" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="28" y1="43" x2="32" y2="43" stroke="url(#topbarLogoG)" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="43" cy="12" r="4.5" fill="#e8c44a" opacity="0.9"/>
+      <circle cx="43" cy="12" r="7" fill="url(#topbarKeyGlow)"/>
+    </svg>
+    <span class="logo-name">HKEYA</span>
   </div>
   <div class="topbar-center">
     <div class="topbar-search-wrap">
@@ -3462,6 +3493,7 @@ function loadProfilePosts() {
 
       const card = document.createElement('div');
       card.className = 'post-card';
+      card.id = `prof-post-${post.id}`;
       card.innerHTML = `
         <div class="post-head">
           <div class="post-user">
@@ -3471,10 +3503,28 @@ function loadProfilePosts() {
               <div class="pmeta">${topicChip}${statusChip}<span class="ptime">${timeAgo}</span></div>
             </div>
           </div>
+          <div style="display:flex;gap:6px;margin-left:auto">
+            <button onclick="deleteMyPost(${post.id},event)"
+              style="display:flex;align-items:center;gap:4px;padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg-input);color:var(--t2);font-size:12px;cursor:pointer;font-family:var(--font);transition:all .15s"
+              onmouseover="this.style.borderColor='var(--err)';this.style.color='var(--err)'"
+              onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--t2)'">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+              Supprimer
+            </button>
+          </div>
         </div>
-        ${post.content || post.texte ? `<div class="post-txt">${post.content || post.texte}</div>` : ''}
-        ${post.image ? `<div class="post-img"><img src="${getImageSrc(post.image)}" alt="image"></div>` : ''}
+        ${post.content || post.texte ? `<div class="post-txt" id="prof-post-txt-${post.id}">${post.content || post.texte}</div>` : ''}
       `;
+      // Inject image safely
+      if (post.image) {
+        const img = document.createElement('img');
+        img.src = getImageSrc(post.image);
+        img.alt = 'image';
+        const wrap = document.createElement('div');
+        wrap.className = 'post-img';
+        wrap.appendChild(img);
+        card.appendChild(wrap);
+      }
       container.appendChild(card);
     });
 
@@ -3496,6 +3546,107 @@ function loadProfilePosts() {
     console.error('Erreur chargement posts profil:', err);
     container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--err)">Erreur de chargement</div>';
   });
+}
+
+// ── Supprimer ma publication ──────────────────────────────────────────────────
+function deleteMyPost(postId, e) {
+  e && e.stopPropagation();
+  if (!confirm('Supprimer cette publication définitivement ?')) return;
+  const token = localStorage.getItem('whisper_api_token_v1');
+  if (!token) return;
+
+  fetch(`http://localhost:4000/api/posts/${postId}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      const card = document.getElementById(`prof-post-${postId}`);
+      if (card) {
+        card.style.opacity = '0';
+        card.style.transition = 'opacity .3s';
+        setTimeout(() => card.remove(), 300);
+      }
+      toast('Publication supprimée', 's');
+      // Refresh stats
+      loadProfilePosts();
+    } else {
+      toast(data.message || 'Erreur', 'e');
+    }
+  })
+  .catch(() => toast('Erreur réseau', 'e'));
+}
+
+// ── Modifier ma publication ───────────────────────────────────────────────────
+function openEditPost(postId, currentText, e) {
+  e && e.stopPropagation();
+  const txtEl = document.getElementById(`prof-post-txt-${postId}`);
+  if (!txtEl) return;
+
+  // Remplacer le texte par un textarea inline
+  const original = txtEl.textContent;
+  const card = document.getElementById(`prof-post-${postId}`);
+
+  const editBox = document.createElement('div');
+  editBox.style.cssText = 'margin:8px 0';
+  editBox.innerHTML = `
+    <textarea id="edit-ta-${postId}" style="width:100%;min-height:80px;border-radius:8px;border:1.5px solid var(--accent-border);padding:10px;font-family:var(--font);font-size:14px;color:var(--t1);background:var(--bg-input);outline:none;resize:vertical">${original}</textarea>
+    <div style="display:flex;gap:8px;margin-top:8px;justify-content:flex-end">
+      <button onclick="cancelEditPost(${postId},'${original.replace(/'/g,"\\'")}',this)"
+        style="padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg-input);color:var(--t2);font-size:12px;cursor:pointer;font-family:var(--font)">Annuler</button>
+      <button onclick="saveEditPost(${postId},this)"
+        style="padding:6px 14px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:12px;cursor:pointer;font-family:var(--font);font-weight:600">Enregistrer</button>
+    </div>
+  `;
+
+  txtEl.replaceWith(editBox);
+  const ta = document.getElementById(`edit-ta-${postId}`);
+  if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+}
+
+function cancelEditPost(postId, original, btn) {
+  const editBox = btn.closest('div').parentElement;
+  const newTxt = document.createElement('div');
+  newTxt.className = 'post-txt';
+  newTxt.id = `prof-post-txt-${postId}`;
+  newTxt.textContent = original;
+  editBox.replaceWith(newTxt);
+}
+
+function saveEditPost(postId, btn) {
+  const ta = document.getElementById(`edit-ta-${postId}`);
+  const newText = ta ? ta.value.trim() : '';
+  if (!newText) { toast('Le texte ne peut pas être vide', 'e'); return; }
+
+  const token = localStorage.getItem('whisper_api_token_v1');
+  if (!token) return;
+
+  btn.textContent = '...';
+  btn.disabled = true;
+
+  fetch(`http://localhost:4000/api/posts/${postId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify({ texte: newText })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      const editBox = btn.closest('div').parentElement;
+      const newTxt = document.createElement('div');
+      newTxt.className = 'post-txt';
+      newTxt.id = `prof-post-txt-${postId}`;
+      newTxt.textContent = newText;
+      editBox.replaceWith(newTxt);
+      toast('Publication modifiée', 's');
+    } else {
+      toast(data.message || 'Erreur', 'e');
+      btn.textContent = 'Enregistrer';
+      btn.disabled = false;
+    }
+  })
+  .catch(() => { toast('Erreur réseau', 'e'); btn.textContent = 'Enregistrer'; btn.disabled = false; });
 }
 
 function loadLikedPosts() {

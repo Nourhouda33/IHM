@@ -112,12 +112,12 @@ function FloatingCard({ post, style, rev, delay = 0 }) {
   const tc = topicColors[post.topic] || topicColors["Études"];
   return (
     <div onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)} style={{
-      position:"absolute", background:"#fff", borderRadius:20, width:240,
+      position:"absolute", background:"#fff", borderRadius:20, width:195,
       border:`1px solid ${hov ? "rgba(77,137,245,0.25)" : "rgba(39,87,200,0.1)"}`,
       boxShadow: hov
         ? "0 20px 60px rgba(39,87,200,0.16), 0 4px 16px rgba(0,0,0,0.08)"
         : "0 8px 32px rgba(39,87,200,0.10), 0 2px 8px rgba(0,0,0,0.05)",
-      padding:"14px 16px 12px", backdropFilter:"blur(6px)",
+      padding:"11px 13px 10px", backdropFilter:"blur(6px)",
       opacity: rev ? 1 : 0,
       transform: rev
         ? `translateY(${hov?-6:0}px) scale(${hov?1.03:1})`
@@ -125,15 +125,15 @@ function FloatingCard({ post, style, rev, delay = 0 }) {
       transition:`all 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}s, box-shadow 0.25s ease`,
       cursor:"default", ...style,
     }}>
-      <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8 }}>
+      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:7 }}>
         <div style={{
-          width:30, height:30, borderRadius:"50%", flexShrink:0,
+          width:26, height:26, borderRadius:"50%", flexShrink:0,
           background:"linear-gradient(135deg,#4d89f5,#2757c8)",
           display:"flex", alignItems:"center", justifyContent:"center",
-          fontSize:12, fontWeight:700, color:"#fff", fontFamily:"monospace",
+          fontSize:11, fontWeight:700, color:"#fff", fontFamily:"monospace",
         }}>{post.avatar}</div>
         <div style={{ minWidth:0 }}>
-          <div style={{ fontSize:11, fontWeight:700, color:C.lText, letterSpacing:0.1 }}>{post.user}</div>
+          <div style={{ fontSize:10.5, fontWeight:700, color:C.lText, letterSpacing:0.1 }}>{post.user}</div>
           <span style={{
             fontSize:8.5, padding:"1.5px 6px", borderRadius:99,
             background:tc.bg, border:`1px solid ${tc.border}`,
@@ -143,11 +143,11 @@ function FloatingCard({ post, style, rev, delay = 0 }) {
         </div>
       </div>
       <p style={{
-        color:C.lTextMid, fontSize:12, lineHeight:1.75, direction:"rtl",
-        margin:"0 0 10px 0", fontFamily:"Georgia, serif",
+        color:C.lTextMid, fontSize:11, lineHeight:1.65, direction:"rtl",
+        margin:"0 0 8px 0", fontFamily:"Georgia, serif",
         display:"-webkit-box", WebkitLineClamp:3, WebkitBoxOrient:"vertical", overflow:"hidden",
       }}>{post.text}</p>
-      <div style={{ display:"flex", alignItems:"center", gap:12, paddingTop:8, borderTop:"1px solid rgba(39,87,200,0.08)" }}>
+      <div style={{ display:"flex", alignItems:"center", gap:10, paddingTop:6, borderTop:"1px solid rgba(39,87,200,0.08)" }}>
         {[["👍",post.reactions],["💬",post.comments],["↩",post.shares]].map(([icon,n],i)=>(
           <span key={i} style={{ display:"flex", alignItems:"center", gap:4, fontSize:11, color:C.lTextSub, fontFamily:"monospace" }}>
             <span>{icon}</span><span>{n}</span>
@@ -251,16 +251,11 @@ function HeroPanel({ isActive, onSignIn, onSignUp }) {
         filter:"blur(40px)", pointerEvents:"none",
       }}/>
 
-      {/* Floating Cards */}
-      <FloatingCard post={posts[0]} rev={rev} delay={0.5}  style={{ top:"14%",    left:"8%",   transform:"rotate(-6deg)" }}/>
-      <FloatingCard post={posts[1]} rev={rev} delay={0.65} style={{ top:"12%",    right:"8%",  transform:"rotate(6deg)"  }}/>
-      <FloatingCard post={posts[2]} rev={rev} delay={0.55} style={{ bottom:"18%", left:"6%",   transform:"rotate(4deg)"  }}/>
-      <FloatingCard post={posts[3]} rev={rev} delay={0.7}  style={{ bottom:"16%", right:"6%",  transform:"rotate(-5deg)" }}/>
-
-      {/* Testimonials */}
-      <TestimonialBubble text="Un espace où je peux être moi-même sans avoir peur du jugement. 😍" rev={rev} delay={0.9}  style={{ top:"32%",    left:"18%",  transform:"translateY(-50%)" }}/>
-      <TestimonialBubble text="Enfin une app qui parle notre langue, de nos vraies problématiques. 🔥" rev={rev} delay={1.0}  style={{ top:"34%",    right:"18%", transform:"translateY(-50%)" }}/>
-      <TestimonialBubble text="J'ai trouvé des conseils qui ont changé ma vie 🙌" rev={rev} delay={0.85} style={{ bottom:"10%", left:"20%",  maxWidth:180 }}/>
+      {/* Floating Cards — poussées vers les bords */}
+      <FloatingCard post={posts[0]} rev={rev} delay={0.5}  style={{ top:"6%",     left:"6%",   transform:"rotate(-5deg)" }}/>
+      <FloatingCard post={posts[1]} rev={rev} delay={0.65} style={{ top:"5%",     right:"6%",  transform:"rotate(5deg)"  }}/>
+      <FloatingCard post={posts[2]} rev={rev} delay={0.55} style={{ bottom:"8%",  left:"6%",   transform:"rotate(3deg)"  }}/>
+      <FloatingCard post={posts[3]} rev={rev} delay={0.7}  style={{ bottom:"8%",  right:"6%",  transform:"rotate(-4deg)" }}/>
 
       {/* Decorative dots */}
       {[
@@ -287,7 +282,7 @@ function HeroPanel({ isActive, onSignIn, onSignUp }) {
       <div style={{
         position:"absolute", inset:0,
         display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
-        zIndex:10, textAlign:"center", padding:"0 180px", pointerEvents:"none",
+        zIndex:10, textAlign:"center", padding:"0 22%", pointerEvents:"none",
       }}>
         {/* Badge */}
         <div style={{
@@ -341,7 +336,7 @@ function HeroPanel({ isActive, onSignIn, onSignUp }) {
 
         {/* CTAs */}
         <div style={{
-          display:"flex", gap:12, marginBottom:18,
+          display:"flex", gap:12, marginBottom:18, marginTop:24,
           opacity: rev?1:0, transform: rev?"translateY(0)":"translateY(12px)",
           transition:"all 0.9s cubic-bezier(0.16,1,0.3,1) 0.75s", pointerEvents:"auto",
         }}>
@@ -349,13 +344,9 @@ function HeroPanel({ isActive, onSignIn, onSignUp }) {
           <HeroBtn label="  CONNEXION" onClick={onSignIn}/>
         </div>
 
-        <p style={{
-          fontSize:11, color:C.lTextSub, letterSpacing:1.5, margin:"0 0 28px 0", fontFamily:"monospace",
-          opacity: rev?0.6:0, transition:"opacity 0.8s 0.9s",
-        }}>Liberté d'expression · Sans jugement · 100% Anonyme</p>
+       
 
         <div style={{ opacity: rev?1:0, transition:"opacity 0.8s 1.0s", pointerEvents:"auto" }}>
-          <AvatarStack rev={rev}/>
         </div>
       </div>
       <Footer light/>
@@ -738,8 +729,8 @@ export default function HkeyaApp() {
         @keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
         @keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
         *{box-sizing:border-box}
-        ::-webkit-scrollbar{width:4px}
-        ::-webkit-scrollbar-thumb{background:rgba(39,87,200,0.15);border-radius:4px}
+        html,body{overflow:hidden;margin:0;padding:0;width:100%;height:100%}
+        ::-webkit-scrollbar{display:none}
         ::placeholder{color:rgba(107,130,176,0.45)!important}
         input{box-sizing:border-box;width:100%!important}
       `}</style>
